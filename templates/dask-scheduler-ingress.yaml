@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "dask.fullname" . }}
+  labels:
+spec:
+  rules:
+    - host: {{ default (printf "%s.%s" .Release.Name .Values.domain) .Values.hostName }}
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: {{ template "dask.fullname" . }}-scheduler
+              servicePort: dashboard
